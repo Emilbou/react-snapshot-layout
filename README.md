@@ -1,75 +1,44 @@
-# React + TypeScript + Vite
+# react-snapshot-layout
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Captures the natural position of elements calculated by the browser, 
+then makes them draggable with absolute positioning.
 
-Currently, two official plugins are available:
+## Preview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![react-snapshot-layout demo](./assets/demo_mansonry.gif)
 
-## React Compiler
+## The problem
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+CSS layouts (flexbox, grid, columns) perfectly calculate positions,
+but elements remain in the flow and cannot be moved freely.
 
-Note: This will impact Vite dev & build performances.
+## The solution
 
-## Expanding the ESLint configuration
+The component first lets CSS calculate the layout naturally.
+Once the render is stable, it captures each element's position.
+Then it recreates these elements in absolute position with their coordinates.
+From there, they become draggable.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Use cases
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Designed for interactive and creative experiences:
+- Rearrangeable image galleries
+- Interactive portfolios
+- Web art installations
+- Exploratory prototypes
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Warning
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+This library is experimental and not suitable for traditional websites.
+It breaks standard accessibility (keyboard navigation, screen readers) 
+and native responsive behavior. Use only for projects where visual/interactive 
+aspects take priority over accessibility, never for informational content 
+or business applications.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Planned features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Customizable hooks to control the transition
+- Support for different component types (not just images)
+- API to define which elements are movable
+- Movement constraint system
+- Save/restore positions
